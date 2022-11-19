@@ -1,5 +1,5 @@
 import {atom, selector} from "recoil";
-import {KeyMetricsQuery, StockOverviewQuery} from "../services/PullBack";
+import {KeyMetricsQuery, StockOverviewQuery} from "../queries/PullBack";
 
 
 export interface KeyMetrics {
