@@ -1,21 +1,35 @@
-import {atom} from "recoil";
+import {atom, selector} from "recoil";
+import {KeyMetricsQuery, StockOverviewQuery} from "../services/PullBack";
 
-export const marketCap = atom<number | null>({
-    key: 'marketCap',
-    default: null,
+
+export interface KeyMetrics {
+    freeCashFlow: number;
+    freeCashFlowPerShare: number;
+    priceToFreeCashFlow: number;
+}
+
+export interface StockOverview {
+    price: number;
+    marketCap: number;
+}
+
+
+export const tickerState = atom<string>({
+    key: 'Ticker',
+    default: 'AAPL',
 });
 
-export const stockPrice = atom<number | null>({
-    key: 'stockPrice',
-    default: null,
+export const keyMetricsQuery = selector({
+    key: 'KeyMetrics',
+    get: async ({get}) : Promise<KeyMetrics>  => {
+        return await KeyMetricsQuery(get(tickerState));
+    }
 });
 
-export const earnings = atom<number | null>({
-    key: 'earnings',
-    default: null,
-});
 
-export const freeCashFlow = atom<number | null>({
-    key: 'freeCashFlow',
-    default: null,
+export const stockOverviewSelector = selector({
+    key: 'StockOverview',
+    get: async ({get}): Promise<StockOverview> => {
+        return await StockOverviewQuery(get(tickerState));
+    }
 });

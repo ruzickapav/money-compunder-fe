@@ -7,7 +7,7 @@ import {intrinsicValueInput} from "../../states/IntrinsicInput";
 
 export const InputDFCFForm: React.FC = () => {
 
-    const [setIntrinsicValueInputValue, setIntrinsicValueInput] = useRecoilState(intrinsicValueInput);
+    const [, setIntrinsicValueInput] = useRecoilState(intrinsicValueInput);
 
     return <Formik initialValues={{growth: 10.0, expectedReturn: 10.0, terminalMultiple: 15.0}} onSubmit={(values => {
         setIntrinsicValueInput(values)

@@ -6,6 +6,7 @@ interface IntrinsicValueInput {
     terminalMultiple: number;
 }
 
-export const intrinsicValueInput = atom<IntrinsicValueInput>({
-    key: 'IntrinsicValueInput'
+export const intrinsicValueInput = atom<IntrinsicValueInput | null>({
+    key: 'IntrinsicValueInput',
+    default: null
 });

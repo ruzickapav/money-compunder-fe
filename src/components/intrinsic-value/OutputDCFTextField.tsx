@@ -1,29 +1,22 @@
 import * as React from "react";
-import TextField from "@material-ui/core/TextField";
 import {useRecoilValue} from "recoil";
 import {intrinsicValueInput} from "../../states/IntrinsicInput";
-import {earnings, freeCashFlow, marketCap, stockPrice} from "../../states/StockStats";
+import {keyMetricsQuery, stockOverviewSelector} from "../../states/StockStats";
+import {TextField} from "@mui/material";
 
 export const OutputDFCF: React.FC = () => {
+    const keyMetrics = useRecoilValue(keyMetricsQuery);
+    const stockOverviewValue = useRecoilValue(stockOverviewSelector);
+    const intrinsicValueInputParams = useRecoilValue(intrinsicValueInput);
 
+    let value = null;
 
-        const intrinsicValueInputParams = useRecoilValue(intrinsicValueInput);
-        const marketCapValue = useRecoilValue(marketCap);
-        const earningsValue = useRecoilValue(earnings);
-        const stockPriceValue = useRecoilValue(stockPrice);
-        const freeCashFlowValue = useRecoilValue(freeCashFlow);
-
-        if (marketCapValue === null || earningsValue === null || stockPriceValue == null)
-            return null
-
-        const sharesOutstanding = stockPriceValue / marketCapValue;
-        const earningPerShare = earningsValue / sharesOutstanding
-
+    if (!(stockOverviewValue.marketCap === null || keyMetrics.freeCashFlow === null || stockOverviewValue.price == null || intrinsicValueInputParams === null)) {
         const horizonYears = 10.0
-        const futureEarningsPerShare = earningPerShare * Math.pow(1.0 + (intrinsicValueInputParams.growth / 100.0), horizonYears)
-        const intrinsicValue = futureEarningsPerShare * intrinsicValueInputParams.terminalMultiple * Math.pow((1.0 - intrinsicValueInputParams.expectedReturn), horizonYears)
+        const futureEarningsPerShare = keyMetrics.freeCashFlowPerShare * Math.pow(1.0 + (intrinsicValueInputParams.growth / 100.0), horizonYears)
+        console.log("Earnings per share after 10 years")
+        value = futureEarningsPerShare * intrinsicValueInputParams.terminalMultiple * Math.pow((1.0 - intrinsicValueInputParams.expectedReturn), horizonYears)
+    }
 
-
-    return <TextField id="intrinsic-value" label="intrinsicValue" value={intrinsicValue}/>;
-
+    return <TextField id="intrinsic-value" label="intrinsicValue" value={value}/>;
 }
