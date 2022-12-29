@@ -12,7 +12,7 @@ export const OutputDFCF: React.FC = () => {
 
     let value = null;
 
-    if (!(stockOverviewValue.marketCap === null || keyMetrics.freeCashFlow === null || stockOverviewValue.price == null || intrinsicValueInputParams === null)) {
+    if (! (keyMetrics === null || stockOverviewValue?.marketCap === null || keyMetrics?.freeCashFlow === null || stockOverviewValue?.price == null || intrinsicValueInputParams === null)) {
 
         const input = {
             growthPercent: intrinsicValueInputParams.growth,

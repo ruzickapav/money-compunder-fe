@@ -1,5 +1,6 @@
 import {atom, selector} from "recoil";
 import {KeyMetricsQuery, StockOverviewQuery} from "../queries/PullBack";
+import {tokenStateQuery} from "./Token";
 
 
 export interface KeyMetrics {
@@ -21,15 +22,21 @@ export const tickerState = atom<string>({
 
 export const keyMetricsQuery = selector({
     key: 'KeyMetrics',
-    get: async ({get}) : Promise<KeyMetrics>  => {
-        return await KeyMetricsQuery(get(tickerState));
+    get: async ({get}) : Promise<KeyMetrics | null>  => {
+        const token = await get(tokenStateQuery)
+        console.log(token)
+        if (token === null) return  null
+        else return await KeyMetricsQuery(get(tickerState));
     }
 });
 
 
 export const stockOverviewSelector = selector({
     key: 'StockOverview',
-    get: async ({get}): Promise<StockOverview> => {
-        return await StockOverviewQuery(get(tickerState));
+    get: async ({get}): Promise<StockOverview | null> => {
+        const token = await get(tokenStateQuery)
+        console.log(token)
+        if (token === null) return null
+        else return await StockOverviewQuery(get(tickerState));
     }
 });

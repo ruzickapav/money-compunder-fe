@@ -15,6 +15,21 @@ export const KeyMetricsQuery = async (ticker: string): Promise<KeyMetricsDto> =>
     return response.data
 }
 
+export const GetTokenQuery = async (credentials: CredentialsDto): Promise<LoginResponseDto> => {
+    const response = await axios.post<LoginResponseDto>(`${baseUrl}/auth/token`, credentials)
+    console.log(`response status ${response.status}`)
+    return response.data
+}
+
+interface CredentialsDto {
+    email: string
+    password : string
+}
+
+interface LoginResponseDto {
+    token_id: string
+}
+
 interface StockOverviewDto {
     price: number
     marketCap: number
